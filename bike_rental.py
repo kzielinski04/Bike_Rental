@@ -91,4 +91,7 @@ def menu():
             menu()
         case 5:
             exit()
+        case _:
+            print("Invalid input!\n")
+            menu()
 menu()
