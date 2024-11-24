@@ -1,0 +1,12 @@
+[
+   {
+      "customer_name": "Kacper",
+      "rental_duration": 12,
+      "rental_cost": 65
+   },
+   {
+      "customer_name": "Kuba",
+      "rental_duration": 12,
+      "rental_cost": 65
+   }
+]

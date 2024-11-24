@@ -1,4 +1,5 @@
 import json, datetime, os, smtplib
+
 '''
 1. **Funkcja rent_bike(customer_name, rental_duration)**
    - Implementuj funkcję, która przyjmuje imię klienta i czas wynajmu.
@@ -16,7 +17,7 @@ import json, datetime, os, smtplib
 '''
 
 #This function calculates rental cost, depending on rental duration
-def calculate_cost(rental_duration:int)->int:
+def calculate_cost(rental_duration:int) -> int:
     match rental_duration:
         case rental_duration if isinstance(rental_duration, int) == False or rental_duration < 1:
             print("Invalid rental duration!\n")
@@ -26,5 +27,15 @@ def calculate_cost(rental_duration:int)->int:
             return 10 + ((rental_duration - 1) * 5)
         
 def rent_bike(customer_name:str, rental_duration:int):
-    rent = {"name" : customer_name, "duration" : rental_duration, "cost" : calculate_cost(rental_duration)}
-    return rent
+    rental = {"customer_name" : customer_name, "rental_duration" : rental_duration, "rental_cost" : calculate_cost(rental_duration)}
+    save_rental(rental)
+
+def save_rental(rental:dict):
+    if os.path.exists("./data/rentals.json"):
+        with open("./data/rentals.json", 'r') as file:
+            rentals = json.load(file)
+    else:
+        rentals = []
+    rentals.append(rental)
+    with open("./data/rentals.json", 'w') as file:
+        json.dump(rentals, file, indent = 3)
