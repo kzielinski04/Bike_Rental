@@ -28,19 +28,31 @@ def rent_bike(customer_name:str, rental_duration:int):
 
 #This function saves rental to the file
 def save_rental(rental:dict):
-    if os.path.exists("./data/rentals.json"):
-        load_rentals()
-    else:
-        rentals = []
+    rentals = load_rentals()
     rentals.append(rental)
     with open("./data/rentals.json", 'w') as file:
         json.dump(rentals, file, indent = 3)
 
 #This function loads rentals from the file
 def load_rentals():
-    if os.path.exists("./data/rentals.json"):
-        with open("./data/rentals.json", 'r') as file:
-            rentals = json.load(file)
+    if not os.path.exists("./data/rentals.json"):
+        return []
+    with open("./data/rentals.json", 'r') as file:
+        rentals = json.load(file)
+    return rentals
+
+#This function cancels rental
+def cancel_rental(customer_name:str):
+    rentals = load_rentals()
+    updated_rentals = [rental for rental in rentals if rental["Customer name"] != customer_name]
+    if len(updated_rentals) != len(rentals):
+        with open("./data/rentals.json", 'w') as file:
+            json.dump(updated_rentals, file, indent = 3)
+        print("Rental has been cancelled successfully!\n")
+        menu()
+    else:
+        print("Rental not found!\n")
+        menu()
 
 #Simple menu
 def menu():
@@ -48,7 +60,8 @@ def menu():
     print("-----BIKE RENTAL-----")
     print("---------------------")
     print("1 - RENT A BIKE")
-    print("2 - EXIT")
+    print("2 - CANCEL A RENTAL")
+    print("3 - EXIT")
     choice = int(input("Choose an option: "))
     match choice:
         case 1:
@@ -58,6 +71,10 @@ def menu():
             rent_bike(customer_name, rental_duration)
             menu()
         case 2:
+            customer_name = input("What's your name?: ")
+            cancel_rental(customer_name)
+            menu()
+        case 3:
             exit()
 
 menu()
