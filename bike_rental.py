@@ -6,6 +6,7 @@ def calculate_cost(rental_duration:int) -> int:
     match rental_duration:
         case rental_duration if isinstance(rental_duration, int) == False or rental_duration < 1:
             print("Invalid rental duration!\n")
+            menu()
         case 1:
             return 10
         case _:
@@ -65,7 +66,11 @@ def menu():
     print("2 - CANCEL A RENTAL")
     print("4 - GENERATE A DAILY REPORT")
     print("5 - EXIT")
-    choice = int(input("Choose an option: "))
+    try:
+        choice = int(input("Choose an option: "))
+    except ValueError:
+        print("Invalid input!\n")
+        menu()
     match choice:
         case 1:
             try:
