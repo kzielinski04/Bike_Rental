@@ -19,6 +19,7 @@ def rent_bike(customer_name:str, rental_duration:int):
     else:    
         rental = {"Customer name" : customer_name, "Rental duration" : rental_duration, "Rental cost" : calculate_cost(rental_duration)}
         save_rental(rental)
+        print("The bike has been rented successfully!\n")
 
 #This function saves rental to the file
 def save_rental(rental:dict):
@@ -64,8 +65,8 @@ def menu():
     print("---------------------")
     print("1 - RENT A BIKE")
     print("2 - CANCEL A RENTAL")
-    print("4 - GENERATE A DAILY REPORT")
-    print("5 - EXIT")
+    print("3 - GENERATE A DAILY REPORT")
+    print("4 - EXIT")
     try:
         choice = int(input("Choose an option: "))
     except ValueError:
@@ -76,7 +77,6 @@ def menu():
             try:
                 customer_name = input("What's your name?: ")
                 rental_duration = int(input("For how many hours would you like to rent a bike?: "))
-                print(f"That'll cost {calculate_cost(rental_duration)} PLN.\n")
                 rent_bike(customer_name, rental_duration)
                 menu()
             except ValueError:
@@ -86,10 +86,10 @@ def menu():
             customer_name = input("What's your name?: ")
             cancel_rental(customer_name)
             menu()
-        case 4:
+        case 3:
             generate_daily_report()
             menu()
-        case 5:
+        case 4:
             exit()
         case _:
             print("Invalid input!\n")
